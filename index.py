@@ -29,7 +29,7 @@ def validarTipoPersona(mensaje):
 
 
 os.system('cls')
-print ("Iniciando la conexion ...")
+print ("Iniciando la conexion ....")
 Conexion.getConnection()
 os.system('cls')
 
