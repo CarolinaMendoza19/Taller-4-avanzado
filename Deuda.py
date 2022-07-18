@@ -4,7 +4,7 @@ class deuda:
         self.__Titulo_libro=Titulo_libro
         self.__Dias_retraso=Dias_retraso
         self.__Monto_deuda=Monto_deuda
-        
+        self.__ID_prestamo=ID_prestamo
 
     @property
     def ID_deuda(self):
@@ -21,4 +21,8 @@ class deuda:
     @property
     def Monto_deuda(self):
         return self.__Monto_deuda
+    
+    @property
+    def ID_prestamo(self):
+        return self.__ID_prestamo
     

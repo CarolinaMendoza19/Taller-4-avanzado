@@ -1,6 +1,6 @@
 from Libro import libro
 from conexion import Conexion
-from beautifultable import beautifultable
+from beautifultable import BeautifulTable
 
 class libroDAO:
     def __init__(self) -> None:
@@ -29,10 +29,10 @@ class libroDAO:
         
         
     def obtenerLibro(self)->None:
-        tabla=beautifultable()
-        tabla.columns.header=["Codigo", "Titulo", "Autor", "Fecha_entrega", "Fecha_entrega"]
-        for row in Conexion.cursor.execute("Select*from libro order by 1"):
-            tabla.rows.appedn(row)
+        tabla=BeautifulTable()
+        tabla.columns.header=["Id Libro", "Titulo", "Autor", "Fecha entrega", "Fecha prestamo"]
+        for row in Conexion.cursor.execute("Select id_codigo, titulo, autor,TO_CHAR( fecha_entrega, 'YYYY-MM-DD' ),TO_CHAR( fecha_prestamo, 'YYYY-MM-DD' ) from libro order by 1"):
+            tabla.rows.append(row)
         if len(tabla.rows)>0:
             print(tabla)
         else:

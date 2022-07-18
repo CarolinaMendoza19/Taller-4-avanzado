@@ -25,6 +25,11 @@ class BaseDato():
 
     def eliminarTablas(self) -> str:
         if self.validarExistenciaTabla() == True:
+ 
+            Conexion.cursor.execute('''
+            drop table DEUDA
+            ''')            
+            
             Conexion.cursor.execute('''
             drop table PERSONA
             ''')
@@ -37,9 +42,7 @@ class BaseDato():
             Conexion.cursor.execute('''
             drop table TIPO_PERSONA
             ''')
-            Conexion.cursor.execute('''
-            drop table DEUDA
-            ''')
+
             Conexion.connection.commit()
             return '''SE ELIMINARON LAS SIGUENTES TABLAS
             -Persona
@@ -53,26 +56,21 @@ class BaseDato():
     def crearTablas(self):
         if self.validarExistenciaTabla() == False:
 
+
             Conexion.cursor.execute('''
-            CREATE TABLE PRESTAMOS(
-                id_rut NUMBER (12)not null,
-                id_codigo NUMBER (12),
-                CONSTRAINT FK_ID_PRESTAMOS PRIMARY KEY(id_rut)
-                )
-            ''')
-            Conexion.cursor.execute('''
-            CREATE TABLE LIBRO(
-                id_codigo NUMBER(10)not null,
+            CREATE TABLE LIBRO (
+                id_codigo NUMBER(10) not null,
                 titulo VARCHAR2(40),
                 autor VARCHAR2(25),
-                fecha_entrega DATE(10),
-                fecha_prestamo DATE(10),
+                fecha_entrega DATE,
+                fecha_prestamo DATE,
                 CONSTRAINT PK_ID_libro PRIMARY KEY(id_codigo)
                 )
             ''')
+
             Conexion.cursor.execute('''
-            CREATE TABLE tipo_persona(
-                id_persona NUMBER(10)not null,
+            CREATE TABLE tipo_persona (
+                id_persona NUMBER(10) not null,
                 nombre VARCHAR2(30),
                 CONSTRAINT PK_ID_TipoPersona PRIMARY KEY(id_persona)
                 )
@@ -90,7 +88,7 @@ class BaseDato():
 
             Conexion.cursor.execute('''
             CREATE TABLE PERSONA (
-                id_rut NUMBER(12)not null,
+                id_rut NUMBER(12) not null,
                 nombre VARCHAR2(20),
                 apellido VARCHAR2(20),
                 ciudad VARCHAR2(20),
@@ -102,13 +100,27 @@ class BaseDato():
                 )
             ''')
 
+
             Conexion.cursor.execute('''
-            CREATE TABLE deuda (
-                id_deuda NUMBER(10)not null,
+            CREATE TABLE PRESTAMOS(
+                id_prestamo NUMBER(12) Not null,
+                id_rut NUMBER(12) not null,
+                id_libro NUMBER(12) not null,
+                CONSTRAINT PK_ID_PREStAMO PRIMARY KEY(ID_prestamo),
+                CONsTRAINT ID_RUT_FK FOREIGN KEY (ID_RUT) REFERENCES PERSONA(ID_RUT),
+                CONsTRAINT ID_LIBRO_FK FOREIGN KEY (ID_LIBRO) REFERENCES LIBRO(ID_codigo)
+                )
+            ''')
+
+            Conexion.cursor.execute('''
+            CREATE TABLE deuda(
+                id_deuda NUMBER(10) not null,
                 titulo_libro VARCHAR2(40),
                 dias_retraso VARCHAR2(30),
                 monto_deuda NUMBER(20),
-                CONSTRAINT PK_ID_DEUDA PRIMARY KEY(id_deuda)
+                id_PRESTAMO number(20),
+                CONSTRAINT PK_ID_DEUDA PRIMARY KEY(id_deuda),
+                CONSTRAINT ID_PRESTAMO_FK FOREIGN KEY (ID_PRESTAMO) REFERENCES PRESTAMOS(ID_PRESTAMO)
                 )
             ''')
             Conexion.connection.commit()

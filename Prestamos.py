@@ -1,15 +1,19 @@
 class prestamos:
-    def __init__(self, id_rut, Codigo ) -> None:
-        self.__ID_rut=id_rut
-        self.__Codigo=Codigo
-        
+    def __init__(self,ID_Prestamo, ID_Rut, ID_Libro) -> None:
+        self.__ID_Prestamo=ID_Prestamo
+        self.__ID_Rut=ID_Rut
+        self.__ID_Libro=ID_Libro
 
 
     @property
-    def id_rut(self):
-        return self.__ID_rut
+    def ID_Prestamo(self):
+        return self.__ID_Prestamo
+
+    @property
+    def ID_Rut(self):
+        return self.__ID_Rut
     
     @property
-    def Codigo(self):
-        return self.__Codigo
+    def ID_Libro(self):
+        return self.__ID_Libro
     

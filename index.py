@@ -38,18 +38,21 @@ menu = BeautifulTable()
 menu.columns.header = ['=== Sistema de prestamos de libro ==='] 
 menu.rows.append(['1. Crear tabla '])
 menu.rows.append(['2. Eliminar tabla'])
-menu.rows.append(['3. Insertar deuda'])
-menu.rows.append(['4. Eliminar deuda'])
-menu.rows.append(['5. Obtener deuda'])
-menu.rows.append(['6. Insertar libro'])
-menu.rows.append(['7. Eliminar libro'])
-menu.rows.append(['8. Obtener libro'])
-menu.rows.append(['9. Insertar persona'])
-menu.rows.append(['10. Eliminar persona'])
-menu.rows.append(['11. Obtener persona'])
-menu.rows.append(['12. Insertar prestamo'])
-menu.rows.append(['13. Eliminar prestamo'])
-menu.rows.append(['14. Obtener prestamo'])
+menu.rows.append(['3. Insertar libro'])
+menu.rows.append(['4. Eliminar libro'])
+menu.rows.append(['5. Obtener libro'])
+menu.rows.append(['6. Insertar persona'])
+menu.rows.append(['7. Eliminar persona'])
+menu.rows.append(['8. Obtener persona'])
+menu.rows.append(['9. Insertar prestamo'])
+menu.rows.append(['10. Eliminar prestamo'])
+menu.rows.append(['11. Obtener prestamo'])
+menu.rows.append(['12. Buscar prestamo'])
+menu.rows.append(['13. Insertar deuda'])
+menu.rows.append(['14. Eliminar deuda'])
+menu.rows.append(['15. Buscar deuda'])
+menu.rows.append(['16. Obtener deuda'])
+
 
 
 def crearT():
@@ -70,38 +73,7 @@ def eliminarT():
     print()
     time.sleep(3)
 
-#Deuda
-def insertarDeuda():
-    os.system('cls')
-    deuda1 = deudaDAO()
-    print('Nueva deuda')
-    print()
-    ID_deuda = input('indique el ID_deuda : ')
-    Titulo_libro = input('indique el Titulo del libro : ')
-    Dias_retraso = input('indique los dias de retraso : ')
-    Monto_deuda = input('indique el monto de la deuda : ')
-    ID_prestamo = input('indique el prestamo : ')
-    print(deuda1.insertarDeuda(deuda(ID_deuda,Titulo_libro,Dias_retraso,Monto_deuda,ID_prestamo)))
-
-def eliminarDeuda():
-    os.system('cls')
-    deuda2 = deudaDAO()
-    print('Eliminar deuda')
-    print()
-    ID_deuda= input('Indique el id de la deuda a eliminar: ')
-    print(deuda2.eliminarDeuda((ID_deuda)))
-
-def obtenerDeuda():
-    os.system('cls')
-    deuda3 = deudaDAO()
-    print('Obtener deuda')
-    print()
-    ID_deuda= input('Indique el id de la deuda a buscar: ')
-    print(deuda3.obtenerDeuda((ID_deuda)))
-
-    
-
-#libro
+    #libro
 def insertarLibro():
     os.system('cls')
     libro1 = libroDAO()
@@ -110,8 +82,8 @@ def insertarLibro():
     id_codigo = input('indique el codigo del libro : ')
     Titulo = input('indique el titulo del libro : ')
     Autor = input('indique el autor del libro : ')
-    Fecha_entrega = input('indique la fecha de entrega del libro : ')
-    Fecha_prestamo = input('indique la fecha de prestamo del libro : ')
+    Fecha_entrega = input('indique la fecha de entrega del libro en formato (DD-MM-AAAA): ')
+    Fecha_prestamo = input('indique la fecha de prestamo del libro (DD-MM-AAAA): ')
     print(libro1.insertarLibro(libro(id_codigo,Titulo,Autor,Fecha_entrega,Fecha_prestamo)))
 
 def eliminarLibro():
@@ -122,7 +94,14 @@ def eliminarLibro():
     id_codigo= input('Indique el id del libro a eliminar: ')
     print(libro2.eliminarLibro((id_codigo)))
 
-#persona
+def obtenerLibro():
+    os.system('cls')
+    print('Obtener Libros')
+    print(" ")
+    libroDAO().obtenerLibro()
+    input(" ")
+
+    #persona
 def insertarPersona():
     os.system('cls')
     persona1 = personaDAO()
@@ -146,34 +125,86 @@ def eliminarPersona():
     id_rut= input('Indique el rut de la persona a eliminar: ')
     print(persona2.eliminarPersona((id_rut)))
 
-#Prestamo
+def obtenerPersona():
+    os.system('cls')
+    print('Obtener Personas')
+    print("")
+    personaDAO().obtenerPersona()
+    input(" ")
+
+    #Prestamo
 def insertarPrestamo():
     os.system('cls')
     prestamos1 = prestamosDAO()
     print('Nuevo prestamo')
     print()
-    rut = input('indique el rut de la persona: ')
-    codigo = input('indique el codigo: ')
-    print(prestamos1.insertarPrestamos(prestamos(rut,codigo)))
+    id_prestamo = input('indique el id del prestamo (nuevo): ')
+    id_rut = input('indique el rut de la persona: ')
+    id_libro = input('indique el Id del libro: ')
+    print(prestamos1.insertarPrestamos(prestamos(id_prestamo,id_rut,id_libro)))
 
 def eliminarPrestamo():
     os.system('cls')
     prestamos2 = prestamosDAO()
     print('Eliminar prestamo')
     print()
-    id_rut= input('Indique el rut de la persona a eliminar: ')
-    print(prestamos2.eliminarPrestamos((id_rut)))
+    id_prestamo= input('Indique el id del prestamo a eliminar: ')
+    print(prestamos2.eliminarPrestamos(id_prestamo))
 
-#Tipo_persona
-def insertarTipo_persona():
+def obtenerPrestamo():
     os.system('cls')
-    tipo_persona1 = tipo_personaDAO()
-    print('Nuevo tipo persona')
+    print('Obtener Prestamos')
+    print("")
+    prestamosDAO().obtenerPrestamos()
+    input(" ")
+
+def buscarPrestamo():
+    os.system('cls')
+    print('Buscar Prestamos')
+    print("")
+    Rut = int(input('ingrese el rut asociado con los prestamos: '))
+    prestamosDAO().buscarPrestamos(Rut)
+    input(" ")
+
+
+#Deuda
+def insertarDeuda():
+    os.system('cls')
+    deuda1 = deudaDAO()
+    print('Nueva deuda')
     print()
-    ID_persona = input('indique el ID_persona (1 es alumno y 2 docente) : ')
-    Nombre = input('indique el nombre  de la persona: ')
-    print(tipo_persona1.insertarTipo_persona(tipo_persona(ID_persona,Nombre)))
-        
+    ID_deuda = input('indique el ID_deuda: ')
+    Titulo_libro = input('indique el Titulo del libro: ')
+    Dias_retraso = input('indique los dias de retraso: ')
+    Monto_deuda = input('indique el monto de la deuda: ')
+    ID_prestamo = input('indique el prestamo id del prestamo: ')
+    print(deuda1.insertarDeuda(deuda(ID_deuda,Titulo_libro,Dias_retraso,Monto_deuda,ID_prestamo)))
+
+def eliminarDeuda():
+    os.system('cls')
+    deuda2 = deudaDAO()
+    print('Eliminar deuda')
+    print()
+    ID_deuda= input('Indique el id de la deuda a eliminar: ')
+    print(deuda2.eliminarDeuda((ID_deuda)))
+
+def obtenerDeuda():
+    os.system('cls')
+    deuda3 = deudaDAO()
+    print('Obtener deuda')
+    print()
+    deuda3.obtenerDeuda()
+    input(" ")
+
+def buscardeuda():
+    os.system('cls')
+    ID_deuda=int(input('indique el id de la deuda a buscar: '))
+    deudaDAO().buscarDeuda(ID_deuda)
+    input(" ")
+
+
+
+
 
 
 while True:
@@ -185,29 +216,33 @@ while True:
     elif opcion == '2':
         eliminarT()
     elif opcion == '3':
-        insertarDeuda()
-    elif opcion =='4':
-        eliminarDeuda()
-    elif opcion =='5':
-        obtenerDeuda()
-    elif opcion == '6':
         insertarLibro()
-    elif opcion == '7':
+    elif opcion == '4':
         eliminarLibro()
-    elif opcion == '8':
+    elif opcion == '5':
         obtenerLibro()
-    elif opcion == '9':
+    elif opcion == '6':
         insertarPersona()
-    elif opcion == '10':
+    elif opcion == '7':
         eliminarPersona()
-    elif opcion == '11':
+    elif opcion == '8':
         obtenerPersona()
-    elif opcion == '12':
+    elif opcion == '9':
         insertarPrestamo()
-    elif opcion == '13':
+    elif opcion == '10':
         eliminarPrestamo()
-    elif opcion == '14':
+    elif opcion == '11':
         obtenerPrestamo()
+    elif opcion == '12':
+        buscarPrestamo()
+    elif opcion == '13':
+        insertarDeuda()
+    elif opcion =='14':
+        eliminarDeuda()
+    elif opcion =='15':
+        buscardeuda()
+    elif opcion =='16':
+        obtenerDeuda()
 
 
 

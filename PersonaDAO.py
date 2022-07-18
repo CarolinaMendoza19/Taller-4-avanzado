@@ -1,6 +1,6 @@
 from Persona import persona
 from conexion import Conexion
-from beautifultable import beautifultable
+from beautifultable import BeautifulTable
 
 class personaDAO:
     def __init__(self) -> None:
@@ -27,11 +27,11 @@ class personaDAO:
         return "Los datos fueron ingresados de forma correcta"
 
         
-    def obtenerPersona(self)->None:
-        tabla=beautifultable()
-        tabla.columns.header=["Rut", "Nombre", "Apellido", "Ciudad", "Direccion", "Telefono", "ID_TipoPersona"]
-        for row in Conexion.cursor.execute('SELECT ID_RUT, p.NOMBRE, APELLIDO, CIUDAD, DIRECCION, TELEFONO, t.NOMBRE as "tipo de persona" FROM PERSONA P FULL OUTER JOIN TIPO_PERSONA T ON T.ID_PERSONA = P.ID_TIPO ORDER BY P.NOMBRE'):
-            tabla.rows.appedn(row)
+    def obtenerPersona(self):
+        tabla=BeautifulTable()
+        tabla.columns.header=["Rut", "Nombre", "Apellido", "Ciudad", "Direccion", "Telefono", "Tipo Persona"]
+        for row in Conexion.cursor.execute('SELECT ID_RUT, PERSONA.NOMBRE, APELLIDO, CIUDAD, DIRECCION, TELEFONO, TIPO_PERSONA.NOMBRE as "tipo de persona" FROM PERSONA left join TIPO_PERSONA ON TIPO_PERSONA.ID_PERSONA = PERSONA.ID_TIPO'):
+            tabla.rows.append(row)
         if len(tabla.rows)>0:
             print(tabla)
         else:

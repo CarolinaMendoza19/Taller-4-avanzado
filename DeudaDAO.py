@@ -1,6 +1,6 @@
 from Deuda import deuda
 from conexion import Conexion
-from beautifultable import beautifultable
+from beautifultable import BeautifulTable
 
 class deudaDAO:
     def __init__(self) -> None:
@@ -11,24 +11,26 @@ class deudaDAO:
         Conexion.connection.commit()
         return "Deuda eliminada correctamente"
         
-    def buscarDeuda(self, ID_deuda):
-        Conexion.cursor.execute("select * from DEUDA where ID_deuda =:1", [ID_deuda])
-        row=Conexion.cursor.fetchone()
-        if row is None:
-            return  None
+    def buscarDeuda(self, ID):
+        tabla=BeautifulTable()
+        tabla.columns.header=["ID_Deuda", "Titulo_libro", "Dias_retraso", "Monto_deuda", "ID_prestamo"]
+        for row in Conexion.cursor.execute("Select * from deuda where id_deuda = :1 order by 1",[ID]):
+            tabla.rows.append(row)
+        if len(tabla.rows)>0:
+            print(tabla)
         else:
-            return deuda (row[0], row[1], row[2], row[3], row[4])
+            print("No existe una deuda con el id proporcionado")
     
     def insertarDeuda(self, Deuda):      
-        Conexion.cursor.execute("""insert into deuda(ID_deuda, titulo_libro, dias_retraso, monto_deuda) values(:Prut,:pnom,:pap,:pci)""",[Deuda.ID_deuda, Deuda.Titulo_libro, Deuda.Dias_retraso, Deuda.Monto_deuda])
+        Conexion.cursor.execute("""insert into deuda(ID_deuda, titulo_libro, dias_retraso, monto_deuda,Id_prestamo) values(:Prut,:pnom,:pap,:pci, :idp)""",[Deuda.ID_deuda, Deuda.Titulo_libro, Deuda.Dias_retraso, Deuda.Monto_deuda, Deuda.ID_prestamo])
         Conexion.connection.commit()
         return "Los datos fueron ingresados de forma correcta"
       
             
-    def obtenerDeuda(self)->None:
-        tabla=beautifultable()
+    def obtenerDeuda(self):
+        tabla=BeautifulTable()
         tabla.columns.header=["ID_Deuda", "Titulo_libro", "Dias_retraso", "Monto_deuda", "ID_prestamo"]
-        for row in Conexion.cursor.execute("Select*from deuda order by 1"):
+        for row in Conexion.cursor.execute("Select * from deuda order by 1"):
             tabla.rows.append(row)
         if len(tabla.rows)>0:
             print(tabla)
